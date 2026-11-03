@@ -590,7 +590,7 @@ Never print, echo, or read back credentials or the environment (`env`,
 body. Direct tool calls (`execute_tool`, REST, compiled and scheduled runs)
 are charged like agent runs; at an empty balance a paid call gets 402
 `insufficient_balance` before it runs, with `shortfall_usd` and `top_up_url`;
-`create_top_up_link` makes a checkout link for the user (never pay yourself). 404 is an inaccessible ID, 409 an idempotency or state conflict, 400
+`create_top_up_link` (whole dollars) makes a checkout link for the user, never pay yourself. 404 is an inaccessible ID, 409 an idempotency or state conflict, 400
 field validation, 5xx retryable only when the operation is safe. Poll
 `/executions/{id}/status/?since=` (about 1 KiB), not full executions. Avoid
 account-wide lists in request paths, bound concurrency and timeouts, and cap
