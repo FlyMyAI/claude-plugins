@@ -2,12 +2,12 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.27.3"
+  version: "1.30.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.27.3 (2026-11-03). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.30.0 (2026-11-03). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
@@ -418,7 +418,11 @@ positive balance. Continue returned `agent`/`chat` (nullable on partial creation
 never resend the brief. Retry the same request and `operation_key`.
 Clone: `template=app:<owner>/<app>` in both calls or workspace **Clone**;
 private resources/budget, no data/chats/connections. `projects_share` publishes a saved version (chats/files public);
-`projects_copy` copies a link or `official` template (`setup.chat`).
+`projects_copy` copies a link or `official` template (`setup.chat`); a public project's
+copy brings its saved versions, files and `examples/`, never its schedules.
+A new project's agent hands every task to a helper. Save it all at once: REST
+`POST /api/v1/agents/projects/<id>/save/`; `POST .../compilations/<id>/repin/`
+moves a version onto its helpers' current versions.
 `apps_plan` / `apps_apply` update; poll `apps_status`. Inspect: `projects_list`,
 `projects_get`, `projects_errors`; pause/resume: `projects_stop`, `projects_start`.
 Edit: `projects_rename`, `projects_set_budget`, `projects_delete`; confirm deletion.
@@ -451,7 +455,7 @@ Fork/adapt/freeze: `copy_agent`; a lead brings its subagents.
 Media: https://flymy.ai/media | https://docs.flymy.ai/agents/guides/media-templates
 Briefs: https://flymy.ai/templates/ - read template.txt; own
 connections, 0% markup.
-PromptLinks: SEO/GEO links, citations and runbook.
+PromptLinks: a website in, link targets out.
 Akta prompts/tools: https://flymy.ai/vc/ - review before running.
 
 ## Embedded and resale - one builder key, no end-user keys
