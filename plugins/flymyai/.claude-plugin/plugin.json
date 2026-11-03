@@ -1,0 +1,15 @@
+{
+  "name": "flymyai",
+  "displayName": "FlyMyAI",
+  "version": "1.27.3",
+  "description": "FlyMyAI Headless Cloud in Claude Code: the remote Agents MCP (OAuth sign-in, no key in files) and the FlyMyAI skill. Generate images, video and audio, call your connected services, get web data, and build, run and schedule cloud agents.",
+  "author": {
+    "name": "FlyMyAI",
+    "email": "support@flymy.ai",
+    "url": "https://flymy.ai"
+  },
+  "homepage": "https://docs.flymy.ai/agents/guides/ai-assistants",
+  "repository": "https://github.com/FlyMyAI/claude-plugins",
+  "license": "MIT",
+  "keywords": ["flymyai", "mcp", "agents", "media-generation", "automation"]
+}

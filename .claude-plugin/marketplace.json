@@ -1,0 +1,15 @@
+{
+  "name": "flymyai",
+  "description": "FlyMyAI plugins for Claude Code",
+  "owner": {
+    "name": "FlyMyAI",
+    "email": "support@flymy.ai"
+  },
+  "plugins": [
+    {
+      "name": "flymyai",
+      "source": "./plugins/flymyai",
+      "description": "FlyMyAI Headless Cloud: the remote Agents MCP (sign in, no key) and the FlyMyAI skill. Generate images, video and audio, call your connected services, get web data, and build, run and schedule cloud agents."
+    }
+  ]
+}

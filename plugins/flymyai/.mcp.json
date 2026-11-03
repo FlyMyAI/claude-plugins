@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "flymyai": {
+      "type": "http",
+      "url": "https://mcp-agents.flymy.ai/mcp"
+    }
+  }
+}
