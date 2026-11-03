@@ -11,8 +11,8 @@ Platform version: Headless Cloud 1.27.3 (2026-11-03). https://flymy.ai/changelog
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.68`; Python SDK `1.2.0rc22`.
-> Check live schemas and installed packages; rc.68 is not on npm.
+> Remote Agents MCP `0.7.0-rc.69`; Python SDK `1.2.0rc25`.
+> Check live schemas and installed packages; rc.69 is not on npm.
 
 ## Start here - verify FlyMyAI or recover
 
