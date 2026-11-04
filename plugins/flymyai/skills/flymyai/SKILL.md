@@ -45,7 +45,8 @@ production.
 Discover services/models with `search_tools`/`list_*` first. Discovery is not success.
 
 Guides: https://flymy.ai/use-cases/
-MCP setup guides and scoped reads, including Grafana: https://flymy.ai/mcp/
+Search MCPs by name, action or category: https://flymy.ai/mcp/
+Each connector page lists actions and an assistant setup request.
 
 ## Build a project
 
@@ -454,7 +455,9 @@ Only on request: `set_agent_public` (`preview`: auto or via `update_agent`).
 Fork/adapt/freeze: `copy_agent`; a lead brings its subagents.
 Media: https://flymy.ai/media | https://docs.flymy.ai/agents/guides/media-templates
 Briefs: https://flymy.ai/templates/ - read template.txt; own
-connections, 0% markup.
+connections, 0% template markup. Responsive Browser Lab checks requested
+viewport sizes and reports actual coverage. BrowserStack Device Lab requires
+your own provider account before device tests. Choose scope and budget first.
 PromptLinks: a website in, link targets out.
 Akta prompts/tools: https://flymy.ai/vc/ - review before running.
 
