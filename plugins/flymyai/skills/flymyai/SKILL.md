@@ -2,12 +2,12 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.30.2"
+  version: "1.30.3"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.30.2 (2026-11-04). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.30.3 (2026-11-04). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
@@ -360,9 +360,9 @@ Children stop at their budget share, cannot delegate, and receive no connections
 shared by others; `get_team_run` is for Agent Teams only. Identical delegations in
 one owner turn reuse their child; an explicit `operation_key` marks an intentional
 job and changed inputs conflict. Use the child's full result reference instead of
-recollecting its data. A lead whose frozen instruction uses `delegate_agent` pins
-the live version of each allowed agent, so freeze those first; its scheduled runs
-start the pinned versions with only their `variables`. A lead and its agents are a
+recollecting its data. Freezing a lead freezes its subagents first (each without a
+current version, from its own run of the subtask), then pins their live versions; its
+scheduled runs start the pinned versions with only their `variables`. A lead and its agents are a
 fleet, listed as a project (`fleet:<lead id>`).
 
 ## Projects - one config with pages, agents, storage and budgets
