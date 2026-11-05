@@ -2,12 +2,12 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.31.1"
+  version: "1.31.2"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.31.1 (2026-11-05). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.31.2 (2026-11-05). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
@@ -357,7 +357,8 @@ request; `flymy.yaml` agents use plan/apply; external assistants use
 
 In the run the lead has `list_subagents` (allowed agents, model, inputs),
 `delegate_agent(agent=..., brief, variables, operation_key=...)` (with `model`
-instead of `agent` it copies the lead and its tools), `wait_subagents`,
+instead of `agent` it copies the lead and its tools; a subagent runs on the
+lead's model unless you or its instructions name another), `wait_subagents`,
 `subagent_status(child_id)` (facts and full-result reference) and
 `cancel_subagents` (the lead joins its batch automatically), plus
 `describe_subagent_api`, `freeze_subagent` (from the last completed subagent run)
