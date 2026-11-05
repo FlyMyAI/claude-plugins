@@ -2,16 +2,16 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.31.2"
+  version: "1.31.3"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.31.2 (2026-11-05). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.31.3 (2026-11-05). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.71`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.72`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages; rc.69 is not on npm.
 
 ## Start here - verify FlyMyAI or recover
@@ -338,7 +338,8 @@ freezes agents; `client.compilations` manages versions; scheduling is REST/MCP.
 
 `triggers_v1_subscribe(agent_id, connection_id, events, operation_key)` starts the
 Live version on Granola or Telegram Bot events (`triggers_v1_catalog`); Granola
-needs `scopes`. Read `source.status`; `triggers_v1_activate` recovers it. Payload:
+needs `scopes`. Read `source.status`; `triggers_v1_activate` recovers it;
+`projects_get` lists them in `triggers`. Payload:
 `trigger.webhook`. https://docs.flymy.ai/agents/guides/native-events
 
 ## Subagents - a lead runs your other agents
