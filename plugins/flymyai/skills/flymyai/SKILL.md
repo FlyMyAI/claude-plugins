@@ -2,16 +2,16 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.31.3"
+  version: "1.31.4"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.31.3 (2026-11-05). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.31.4 (2026-11-05). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.72`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.74`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages; rc.69 is not on npm.
 
 ## Start here - verify FlyMyAI or recover
@@ -346,9 +346,9 @@ needs `scopes`. Read `source.status`; `triggers_v1_activate` recovers it;
 
 Any ordinary run can start subagents. `subagent_limits` on `run_agent` or
 `run_frozen` sets the lead's allowance: `cap_usd` (subagents and their tools; 0
-turns them off), `max_children` (1-6), `max_parallel` (1-3) and `agents` (up to
-10 of your agent ids). New chats share one $5 pool for subagents and their tools;
-the lead's own calls bill separately.
+turns them off), `max_children`, `max_parallel` (1-8, default 3; more wait) and
+`agents` (up to 10 of your agent ids). There is no cap or count limit unless you
+set one; the lead's own calls bill separately.
 
 Chat/API/SDK/MCP leads author requested helpers with `create_subagent` and
 `update_subagent` (including `user_prompt_source`), within the project;
@@ -365,7 +365,7 @@ lead's model unless you or its instructions name another), `wait_subagents`,
 `describe_subagent_api`, `freeze_subagent` (from the last completed subagent run)
 and `schedule_subagent`. `delegate` (older) starts a bounded copy of the lead.
 
-Children stop at their budget share, cannot delegate, and receive no connections
+Children stop only at a cap you set, cannot delegate, and receive no connections
 shared by others; `get_team_run` is for Agent Teams only. Identical delegations in
 one owner turn reuse their child; an explicit `operation_key` marks an intentional
 job and changed inputs conflict. Use the child's full result reference instead of
