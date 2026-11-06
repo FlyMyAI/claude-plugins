@@ -2,16 +2,16 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.32.1"
+  version: "1.32.2"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.32.1 (2026-11-05). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.32.2 (2026-11-06). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.76`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.77`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages; rc.69 is not on npm.
 
 ## Start here - verify FlyMyAI or recover
