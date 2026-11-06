@@ -2,17 +2,17 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.32.3"
+  version: "1.32.4"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.32.3 (2026-11-06). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.32.4 (2026-11-06). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
 > Remote Agents MCP `0.7.0-rc.77`; Python SDK `1.2.0rc26`.
-> Check live schemas and installed packages; rc.69 is not on npm.
+> Check live schemas and installed packages.
 
 ## Start here - verify FlyMyAI or recover
 
@@ -59,27 +59,28 @@ its actions and an assistant setup request: https://flymy.ai/mcp/
    `poll_complete=true`; `read_run_result` if the preview is truncated.
 6. Refine the same agent (`update_agent` or `append_message`) until the user
    accepts one completed run.
-7. `freeze_agent` with that execution ID; poll `get_compilation` until
-   `status=compiled`.
-8. `run_frozen` with a new `operation_key` and poll `get_run` before calling it
+7. Price it (`get_execution_price`, helpers' runs too): each frozen run costs
+   about as much. Over ~$0.20 or on a top model, ask the user first: this run or
+   a cheaper complete path (cheaper `model`/`effort`, code, files) rerun on the
+   same inputs, with both prices and results.
+8. `freeze_agent` the picked run (it uses the agent's current `model`/`effort`);
+   poll `get_compilation` until `status=compiled`.
+9. `run_frozen` with a new `operation_key` and poll `get_run` before calling it
    production-ready.
-9. Ship: a schedule (`update_compilation`), a webhook (`triggers_v1_create`),
+10. Ship: a schedule (`update_compilation`), a webhook (`triggers_v1_create`),
    a public template (`set_agent_public`), a subagent of a lead, or a product
    deployment.
-10. Media: `recommend_model`, `get_pricing`, then `run_model`.
+11. Media: `recommend_model`, `get_pricing`, then `run_model`.
 
 | Section | Docs |
 | --- | --- |
 | Start here | https://docs.flymy.ai/agents/guides/connect-your-agent |
 | Tools and connections | https://docs.flymy.ai/agents/concepts/tools |
 | Multiple accounts and resource sets | https://docs.flymy.ai/agents/guides/mcp-resource-sets |
-| Models | https://docs.flymy.ai/api/models-endpoints |
 | Agents, every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
-| Projects, artifacts, sites | https://docs.flymy.ai/agents/guides/projects |
 | Embedded and resale | https://docs.flymy.ai/agents/guides/embedded-resale |
 | Browser Use | https://docs.flymy.ai/mcp/browser-use |
 | Your own model on GPU | https://docs.flymy.ai/cli/intro |
-| Release maintainers only | https://docs.flymy.ai/agents/guides/release-gates |
 
 ## Tools and connections
 
@@ -132,7 +133,7 @@ and then `get_tool_schemas` (at most 10 runtime names) to
 ### Personal default - one account, no MCP resource-set setup
 
 Use `mcp_access_mode` `legacy` in the implicit personal space; `scoped` needs
-explicit set grants. Search by intent, use hosted setup.
+explicit set grants.
 `add_tool` without `alias` selects the idempotent `default` connection. Match
 `mcp_tool`/`alias:"default"` in `list_configured_tools`; put its numeric `id`
 in `available_tools`.
@@ -550,8 +551,7 @@ like agent runs; at an empty balance a paid call gets 402 `insufficient_balance`
 before it runs, with `shortfall_usd` and `top_up_url`; `create_top_up_link`
 (whole dollars) makes a checkout link for the user, never pay yourself. 404 is an
 inaccessible ID, 409 an idempotency or state conflict, 400 field validation, 5xx
-retryable only when the operation is safe. Poll `/executions/{id}/status/?since=`
-(about 1 KiB), not full executions. Avoid account-wide lists in request paths,
+retryable only when the operation is safe. Avoid account-wide lists in request paths,
 bound concurrency and timeouts, cap files before decode. When live behavior
 conflicts with this file, make one bounded read-only probe and report it. Report a
 failing or missing tool, a wrong result or a wrong guide once with
