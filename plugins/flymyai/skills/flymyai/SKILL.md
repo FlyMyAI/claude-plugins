@@ -2,16 +2,16 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.32.0"
+  version: "1.32.1"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.32.0 (2026-11-05). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.32.1 (2026-11-05). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.74`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.76`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages; rc.69 is not on npm.
 
 ## Start here - verify FlyMyAI or recover
@@ -412,7 +412,7 @@ owner/editor publish beside the live version (`publish: false`, live
 `base_version`, give `page_url`), live only on "and update current version";
 others clone. Sites: `publish_site`, `share_site`, `invite_to_site`,
 `get_site_usage` (the owner's sponsor pool or consenting visitors pay, under
-daily caps). Details: https://docs.flymy.ai/agents/guides/artifacts
+caps you set). Details: https://docs.flymy.ai/agents/guides/artifacts
 
 ## Templates
 
