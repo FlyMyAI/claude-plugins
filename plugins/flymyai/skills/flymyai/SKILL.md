@@ -2,16 +2,16 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.32.5"
+  version: "1.33.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.32.5 (2026-11-06). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.33.0 (2026-11-07). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.79`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.80`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages.
 
 ## Start here - verify FlyMyAI or recover
@@ -295,7 +295,7 @@ run_agent({"agent_id":agent.uuid,"message":"Run the health check.",
 run_frozen({"compilation_id":frozen.id,"operation_key":"health-frozen-<uuid>"})
 ```
 
-Runs return `id`, `status`, `run_seq` and `subagent_limits`. Poll `get_run` with
+Runs return `id`, `status`, `run_seq`, `subagent_limits` and `engine`. Poll `get_run` with
 `since` until `poll_complete=true`; its 4 KiB previews carry `size_bytes`,
 `sha256` and `ref`. Read the full result with
 `read_run_result({"execution_id":run.id,"ref":page.result.ref})`, advancing
@@ -313,8 +313,8 @@ test is ready to publish; do not freeze it again.
 `schedule_agent` freezes and schedules once (`execution_id`, `cron_schedule`,
 `timezone`, `schedule_variables`); for an existing freeze edit them with
 `update_compilation` on the same ID (new variables apply to future runs;
-`cron_schedule:""` unschedules). Scheduling has no idempotency key: after a lost
-response, reconcile that execution's compilations before retrying. Three
+`cron_schedule:""` unschedules). Pass a stable `operation_key`: a retry after a lost
+answer returns the same freeze. Three
 consecutive failures pause the schedule and notify its owner; fix the cause, then
 set `schedule_paused:false` (true pauses without removing the cron).
 
@@ -322,6 +322,7 @@ A freeze becomes live. `save_instruction_version` saves an edited
 `instruction_md` as a draft; test its `compilation_id` with `run_frozen`, then
 `set_live_version` (an older version rolls back). Runs without an explicit
 version and schedules use the live version (`list_compilations`, `is_live=true`).
+A version keeps the `engine` it was frozen on.
 `list_agent_versions(agent_id, limit?, cursor?)` (Python
 `client.compilations.list_versions`) lists versions newest first with
 `next_cursor`; `get_compilation` opens one. Revoke retained browser media consent
@@ -347,7 +348,7 @@ needs `scopes`. Read `source.status`; `triggers_v1_activate` recovers it;
 Any ordinary run can start subagents. `subagent_limits` on `run_agent` or
 `run_frozen` sets the lead's allowance: `cap_usd` (subagents and their tools; 0
 turns them off), `max_children`, `max_parallel` (1-8, default 3; more wait) and
-`agents` (up to 10 of your agent ids). There is no cap or count limit unless you
+`agents` (your agent ids). There is no cap or count limit unless you
 set one; the lead's own calls bill separately.
 
 Chat/API/SDK/MCP leads author requested helpers with `create_subagent` and
