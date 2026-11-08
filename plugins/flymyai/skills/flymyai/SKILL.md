@@ -2,16 +2,16 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.33.1"
+  version: "1.34.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.33.1 (2026-11-08). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.34.0 (2026-11-08). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.80`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.81`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages.
 
 ## Start here - verify FlyMyAI or recover
@@ -43,8 +43,8 @@ production.
 
 Discover services/models with `search_tools`/`list_*` first. Discovery is not success.
 
-Guides: https://flymy.ai/use-cases/. MCPs by name, action or category, each with
-its actions and an assistant setup request: https://flymy.ai/mcp/
+Guides: https://flymy.ai/use-cases/. MCPs, each with its actions and setup:
+https://flymy.ai/mcp/
 
 ## Build a project
 
@@ -63,9 +63,9 @@ its actions and an assistant setup request: https://flymy.ai/mcp/
    Each frozen run costs about as much. Ask the user its `question`: original or
    a cheaper option (an estimate; `warnings` show waste to cut).
 8. `freeze_agent` the picked run; poll `get_compilation` until `status=compiled`;
-   then make the option's `apply` calls (frozen runs use the agent's `model`).
-9. `run_frozen` with a new `operation_key` (same inputs for a cheaper option) and
-   poll `get_run` before calling it production-ready.
+   then make the option's `apply` calls (`update_agent` answers `new_version`).
+9. `run_frozen` (a cheaper option: its `new_version` id, same inputs) with a new
+   `operation_key`; poll `get_run`; then `set_live_version`.
 10. Ship: a schedule (`update_compilation`), a webhook (`triggers_v1_create`),
    a public template (`set_agent_public`), a subagent of a lead, or a product
    deployment.
@@ -84,8 +84,7 @@ its actions and an assistant setup request: https://flymy.ai/mcp/
 ## Tools and connections
 
 1. Call `search_tools` with a plain-English intent; read `tool`, `action`,
-   `runtime_name`, and `configured`. Never download the full catalog
-   per intent.
+   `runtime_name`, and `configured`. Never download the full catalog.
 2. Call `get_tool_schemas` with the `runtime_name` when search did not inline
    the request schema; never call a write action with empty or guessed arguments
    to learn its schema. On `not_found`, use the agent runtime or stop.
@@ -103,8 +102,7 @@ its actions and an assistant setup request: https://flymy.ai/mcp/
    `connect_url`. Do not invent a `setup_url` response field.
 5. To revoke exactly one connection, call `delete_tool` with its numeric `id`
    (REST: `DELETE /api/v1/agents/tools/{id}/`); sibling connections of the
-   same toolkit keep working, and the revoked row fails before any provider
-   call.
+   same toolkit keep working.
 
 Search rows also carry `ready`, `access`, `price` and 7-day `health`: prefer a
 ready, healthy row and quote `price` before a paid call.
@@ -117,9 +115,8 @@ execute_tool({"tool":"telegram","action":"telegram_list_dialogs",
 ```
 
 Use `arguments`; `params` or `input` returns HTTP 400.
-`outcome=rejected` means FlyMyAI or the provider refused before any effect
-(wrong arguments, missing setup, provider refusal): fix the call and send it
-with a new `operation_key`. `outcome=unknown` means it may have taken effect:
+`outcome=rejected` means a refusal before any effect (arguments, setup,
+provider): fix the call and send it with a new `operation_key`. `outcome=unknown` means it may have taken effect:
 reconcile, never repeat automatically.
 
 Without MCP tool calls, POST
@@ -237,8 +234,7 @@ run_model({"endpoint_id":"flymyai/nano-banana",
   "input":{"prompt":"A blue circle, flat icon"}})
 ```
 
-Use the returned endpoint, schema bounds and price; a guessed paid call is not
-discovery. `get_pricing` quotes a listed model before a paid run; over REST,
+Use the returned endpoint, schema bounds and price. `get_pricing` quotes a listed model before a paid run; over REST,
 `GET https://backend.flymy.ai/api/v1/demo/catalog/` (no key) gives each public
 model a `price` (`run_price`, or usage-based `rates`, `tokens` or `run_time`).
 Generated file `url`s expire at `url_expires_at` (15 min max).
@@ -261,8 +257,7 @@ and 1-12 reference files (up to 9 images, 3 audio clips; upload each with
 `POST /api/v1/agents/files/`, pass its `artifact`), priced by video length.
 `flymyai/deepseek-v4-1-flash-1017`: native chat with `tools` and an explicit
 `max_tokens`, priced per token (cached input lower), one answer, no streaming.
-With no running instance a call waits `queued` (`*_capacity_not_ready`): keep
-reading the same operation, never resend. `flymyai/deepseek-v4_1-flash` is a
+Without a running instance a call waits `queued`: keep reading it, never resend. `flymyai/deepseek-v4_1-flash` is a
 different, older route. Guide: https://docs.flymy.ai/api/model-proxy
 
 Model REST inputs are model-specific `multipart/form-data`, not JSON; read
@@ -322,7 +317,9 @@ A freeze becomes live. `save_instruction_version` saves an edited
 `instruction_md` as a draft; test its `compilation_id` with `run_frozen`, then
 `set_live_version` (an older version rolls back). Runs without an explicit
 version and schedules use the live version (`list_compilations`, `is_live=true`).
-A version keeps the `engine` it was frozen on.
+A version keeps its `engine`, model, effort, web search, tools and skills (`pins`):
+`update_agent` on an agent with a live version answers `new_version` (not live).
+A tool removed from the agent stops in every version at once.
 `list_agent_versions(agent_id, limit?, cursor?)` (Python
 `client.compilations.list_versions`) lists versions newest first with
 `next_cursor`; `get_compilation` opens one. Revoke retained browser media consent
@@ -348,8 +345,8 @@ needs `scopes`. Read `source.status`; `triggers_v1_activate` recovers it;
 Any ordinary run can start subagents. `subagent_limits` on `run_agent` or
 `run_frozen` sets the lead's allowance: `cap_usd` (subagents and their tools; 0
 turns them off), `max_children`, `max_parallel` (1-8, default 3; more wait) and
-`agents` (your agent ids). There is no cap or count limit unless you
-set one; the lead's own calls bill separately.
+`agents` (your agent ids; without it, also those its instruction names by id).
+No cap or count limit unless you set one; the lead's calls bill separately.
 
 Chat/API/SDK/MCP leads author requested helpers with `create_subagent` and
 `update_subagent` (including `user_prompt_source`), within the project;
