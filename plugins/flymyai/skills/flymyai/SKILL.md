@@ -2,12 +2,12 @@
 name: flymyai
 description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
 metadata:
-  version: "1.34.0"
+  version: "1.35.1"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.34.0 (2026-11-08). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.35.1 (2026-11-09). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
@@ -240,9 +240,9 @@ model a `price` (`run_price`, or usage-based `rates`, `tokens` or `run_time`).
 Generated file `url`s expire at `url_expires_at` (15 min max).
 
 Chat models carry `openai.base_url`
-(`https://api.flymy.ai/api/v1/<endpoint_id>/openai/v1`) for the OpenAI SDK with
-the FlyMyAI key as Bearer: text and `image_url` messages, `stream`,
-`reasoning_effort`; no `response_format`. Guide:
+(`https://api.flymy.ai/api/v1/<endpoint_id>/openai/v1`) for the OpenAI SDK,
+FlyMyAI key as Bearer: text, `image_url` messages, `stream`,
+`reasoning_effort`, `response_format` (JSON). Guide:
 https://docs.flymy.ai/guides/llm-openai-compat
 
 `tools` work on Grok 4.7, DeepSeek V4.1 Flash and Kimi K3.1 Pro. Guides:
@@ -319,13 +319,13 @@ A freeze becomes live. `save_instruction_version` saves an edited
 version and schedules use the live version (`list_compilations`, `is_live=true`).
 A version keeps its `engine`, model, effort, web search, tools and skills (`pins`):
 `update_agent` on an agent with a live version answers `new_version` (not live).
-A tool removed from the agent stops in every version at once.
+A removed tool stops in every version at once (no new version).
 `list_agent_versions(agent_id, limit?, cursor?)` (Python
 `client.compilations.list_versions`) lists versions newest first with
 `next_cursor`; `get_compilation` opens one. Revoke retained browser media consent
 with `update_compilation`, `browser_media_consent:{"purposes":[]}`.
-`upload_agent_file` attaches a file up to 1 MiB; its `operation_key` reconciles
-the same upload instead of adding a file.
+`upload_agent_file` attaches a file up to 1 MiB; a retry with its `operation_key`
+adds no second file.
 
 Run a freeze as its owner via `POST /compilations/{id}/run-instruction/` under
 `/api/v1/agents/`, with `Idempotency-Key`; poll `/executions/{id}/status/?since=`.
@@ -359,15 +359,15 @@ In the run the lead has `list_subagents` (allowed agents, model, inputs),
 instead of `agent` it copies the lead and its tools; a subagent runs on the
 lead's model unless you or its instructions name another), `wait_subagents`,
 `subagent_status(child_id)` (facts and full-result reference) and
-`cancel_subagents` (the lead joins its batch automatically), plus
-`describe_subagent_api`, `freeze_subagent` (from the last completed subagent run)
-and `schedule_subagent`. `delegate` (older) starts a bounded copy of the lead.
+`cancel_subagents` (the batch joins automatically; `wake_on_end:true` wakes the lead
+when that child ends), plus `describe_subagent_api`, `freeze_subagent` (its last
+completed run) and `schedule_subagent`. `delegate` (older) starts a bounded copy of the lead.
 
 Children stop only at a cap you set, cannot delegate, and receive no connections
 shared by others; `get_team_run` is for Agent Teams only. Identical delegations in
 one owner turn reuse their child; an explicit `operation_key` marks an intentional
-job and changed inputs conflict. Use the child's full result reference instead of
-recollecting its data. Freezing a lead freezes its subagents first (each without a
+job and changed inputs conflict. Use the child's full result reference; do not recollect
+its data. Freezing a lead freezes its subagents first (each without a
 current version, from its own run of the subtask), then pins their live versions; its
 scheduled runs start the pinned versions with only their `variables`. A lead and its agents are a
 fleet, listed as a project (`fleet:<lead id>`).
