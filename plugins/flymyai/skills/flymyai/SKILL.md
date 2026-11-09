@@ -242,7 +242,7 @@ Generated file `url`s expire at `url_expires_at` (15 min max).
 Chat models carry `openai.base_url`
 (`https://api.flymy.ai/api/v1/<endpoint_id>/openai/v1`) for the OpenAI SDK,
 FlyMyAI key as Bearer: text, `image_url` messages, `stream`,
-`reasoning_effort`, `response_format` (JSON). Guide:
+`reasoning_effort`, `response_format` (not Gemini 3 Flash). Guide:
 https://docs.flymy.ai/guides/llm-openai-compat
 
 `tools` work on Grok 4.7, DeepSeek V4.1 Flash and Kimi K3.1 Pro. Guides:
