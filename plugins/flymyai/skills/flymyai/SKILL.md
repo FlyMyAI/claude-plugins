@@ -2,16 +2,16 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "1.36.0"
+  version: "1.36.1"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.36.0 (2026-11-10). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.36.1 (2026-11-10). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.82`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.83`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages.
 
 ## Start here - verify FlyMyAI or recover
@@ -383,9 +383,9 @@ brief saves model/effort with no task or chat. Brief: 65,536 UTF-8 bytes max,
 positive balance. Continue the returned `agent`/`chat` (nullable on partial
 creation), never resend the brief; retry the same request and `operation_key`.
 Clone: `template=app:<owner>/<app>` in both calls or workspace **Clone**;
-private resources/budget, no data/chats/connections. `projects_share` publishes a saved version (chats/files public);
+private resources/budget, no data/chats/connections. `projects_share` publishes it, saved or not (chats/files too);
 `projects_copy` copies a link or `official` template (`setup.chat`); a public project's
-copy brings its saved versions, files and `examples/`, never its schedules.
+copy brings saved versions (or agents as is), files, `examples/`, no schedules.
 A new project's agent hands every task to a helper. Save it all at once: REST
 `POST /api/v1/agents/projects/<id>/save/`; `POST .../compilations/<id>/repin/`
 moves a version onto its helpers' current versions.
