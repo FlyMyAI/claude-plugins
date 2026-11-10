@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "1.36.2"
+  version: "1.36.3"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.36.2 (2026-11-10). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.36.3 (2026-11-10). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
@@ -243,7 +243,7 @@ Generated file `url`s expire at `url_expires_at` (15 min).
 Chat models carry `openai.base_url`
 (`https://api.flymy.ai/api/v1/<endpoint_id>/openai/v1`) for the OpenAI SDK,
 FlyMyAI key as Bearer: text, `image_url` messages, `stream`,
-`reasoning_effort`, `response_format` (not Gemini 3 Flash). Guide:
+`reasoning_effort`, `response_format` (JSON). Guide:
 https://docs.flymy.ai/guides/llm-openai-compat
 
 `tools` work on Grok 4.7, DeepSeek V4.1 Flash and Kimi K3.1 Pro. Guides:
