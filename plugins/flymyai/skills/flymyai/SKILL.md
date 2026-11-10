@@ -2,16 +2,16 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "1.35.4"
+  version: "1.36.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.35.4 (2026-11-10). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.36.0 (2026-11-10). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.81`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.82`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages.
 
 ## Start here - verify FlyMyAI or recover
@@ -69,7 +69,7 @@ https://flymy.ai/mcp/
 10. Ship: a schedule (`update_compilation`), a webhook (`triggers_v1_create`),
    a public template (`set_agent_public`), a subagent of a lead, or a product
    deployment.
-11. Media: `recommend_model`, `get_pricing`, then `run_model`.
+11. Media: `recommend_model`, `get_pricing`, `run_model`; if `running`, `get_model_result`.
 
 | Section | Docs |
 | --- | --- |
@@ -229,16 +229,16 @@ Details: https://docs.flymy.ai/agents/guides/mcp-servers
 ## Models - discover, price, run
 
 ```text
-recommend_model({"description":"cheap flat icon image",
+recommend_model({"description":"flat icon image",
   "include_schema":true,"top_n":1})
 run_model({"endpoint_id":"flymyai/nano-banana",
-  "input":{"prompt":"A blue circle, flat icon"}})
+  "input":{"prompt":"A blue circle"}})
 ```
 
-Use the returned endpoint, schema bounds and price. `get_pricing` quotes a listed model before a paid run; over REST,
+Use the returned endpoint, schema bounds and price. `get_pricing` quotes a model before a paid run; over REST,
 `GET https://backend.flymy.ai/api/v1/demo/catalog/` (no key) gives each public
 model a `price` (`run_price`, or usage-based `rates`, `tokens` or `run_time`).
-Generated file `url`s expire at `url_expires_at` (15 min max).
+Generated file `url`s expire at `url_expires_at` (15 min).
 
 Chat models carry `openai.base_url`
 (`https://api.flymy.ai/api/v1/<endpoint_id>/openai/v1`) for the OpenAI SDK,
