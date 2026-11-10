@@ -1,13 +1,13 @@
 ---
 name: flymyai
-description: Use FlyMyAI to generate images, video and audio, call services and the user's connected accounts, get web data, and run or schedule cloud agents. Load it whenever FlyMyAI or flymy.ai comes up.
+description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "1.35.2"
+  version: "1.35.3"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.35.2 (2026-11-09). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.35.3 (2026-11-10). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
@@ -79,6 +79,7 @@ https://flymy.ai/mcp/
 | Agents, every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
 | Embedded and resale | https://docs.flymy.ai/agents/guides/embedded-resale |
 | Browser Use | https://docs.flymy.ai/mcp/browser-use |
+| Hacker News (public reads, no account/key) | https://docs.flymy.ai/mcp/hackernews |
 | Your own model on GPU | https://docs.flymy.ai/cli/intro |
 
 ## Tools and connections
