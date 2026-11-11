@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "1.36.3"
+  version: "1.36.4"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.36.3 (2026-11-10). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 1.36.4 (2026-11-11). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
@@ -477,24 +477,23 @@ same agent, frozen version, deployment, and billed owner.
 
 ## Browser Use - real browser tasks
 
-`run_browser_task` drives a remote browser (default model `gpt-6-luna`, or pass
-`model`); `wait_for_browser_task` only reads; `send_task` continues;
-`stop_browser_task` ends a session.
+`run_browser_task` drives a remote browser (default `gpt-6-luna`, fastest
+`bu-ultrafast`); `wait_for_browser_task` only reads; `send_task` continues, even
+a running task; `stop_browser_task` ends a session.
 
-- Use the same existing public `execution_id` and exact connection for create,
-  poll, files, follow-up and stop.
+- Use the same existing public `execution_id` and exact connection throughout.
 - Never put passwords in prompts. **Create saved browser** (or
   `client.tools.create_browser_profile`) binds a profile to the connection; the
-  user signs in once in the live view. On an unknown result or 409 use
-  `get_browser_profile` and `reconcile_browser_profile`, never create again. A
-  second account needs a second connection; end with
-  `stop_browser_task(strategy="session")`.
+  user signs in once in the live view. After an unknown result or 409 use
+  `reconcile_browser_profile`, never create again. A second account needs a
+  second connection; end with `stop_browser_task(strategy="session")`.
 - `live_url`, `live_url_clean` and `share_url` are full-control credentials for
-  the requesting user only, never published or logged.
-- Media becomes durable only through `get_browser_recording(persist=true)`,
+  the requesting user only, never published or logged; `set_browser_share_link`
+  makes a public read-only replay only when the user asks.
+- Media becomes durable only via `get_browser_recording(persist=true)`,
   `recover_browser_artifact` or `download_browser_file` (256 MiB budget). Show
-  the signed `ALLOW_BROWSER_USE_*` lines, stop, and repeat with the token only
-  after the user sends them; never manufacture it. Tokens are
+  the signed `ALLOW_BROWSER_USE_*` lines, stop, and repeat with the user's
+  token; never invent it. Tokens are
   one-time, short-lived, execution-bound, connection-bound, and request-bound.
 - A status or recording is not proof of a download or that a social site works.
 
