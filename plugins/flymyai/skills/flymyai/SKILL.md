@@ -2,16 +2,17 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "1.36.4"
+  version: "2.0.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 1.36.4 (2026-11-11). https://flymy.ai/changelog.md,
-https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`.
+Platform version: Headless Cloud 2.0.0 (2026-11-12). https://flymy.ai/changelog.md,
+https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
+a newer `current_version` than this file's: re-read the guide, replace this copy.
 
 > `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.83`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.84`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages.
 
 ## Start here - verify FlyMyAI or recover
@@ -53,12 +54,12 @@ https://flymy.ai/mcp/
    `get_tool_schemas` for exact fields.
 3. If a service is not `configured`, `add_tool`; the user finishes the hosted
    link; confirm with `list_configured_tools`.
-4. `create_agent` once: goal, numeric `available_tools`, `input_schema`,
-   `output_schema`, optional `model` from `list_agent_models`.
-5. `run_agent` with a new `operation_key`; poll `get_run` until
-   `poll_complete=true`; `read_run_result` if the preview is truncated.
-6. Refine the same agent (`update_agent` or `append_message`) until the user
-   accepts one completed run.
+4. Every agent lives in a project (no `create_agent`): `projects_plan`, then on
+   the user's OK `projects_create` with the task as `brief`. It returns `url`
+   (give it to the user), `agent` and `chat`.
+5. Poll `get_run` on `chat` until `poll_complete=true`; `read_run_result` if
+   truncated.
+6. Refine in that chat (`append_message`) until the user accepts one run.
 7. Price it: `get_execution_price` with `cost_options=true` (helpers included).
    Each frozen run costs about as much. Ask the user its `question`: original or
    a cheaper option (an estimate; `warnings` show waste to cut).
@@ -275,7 +276,7 @@ https://docs.flymy.ai/guides/typesafe-jev
 
 ## Agents - create, run, freeze, schedule
 
-Use `create_agent` once; refine with `update_agent`, reuse with new inputs.
+Agents are made with projects; refine with `update_agent`, reuse with new inputs.
 Pick `model`/`effort` from `list_agent_models`
 (cost-1 for helpers), `web_search` from `list_web_search_engines`. Call
 published agents over REST or the SDK.
@@ -353,7 +354,7 @@ Chat/API/SDK/MCP leads author requested helpers with `create_subagent` and
 `update_subagent` (including `user_prompt_source`), within the project;
 scheduled, frozen and child runs cannot. Editing another agent needs your
 request; `flymy.yaml` agents use plan/apply; external assistants use
-`create_agent` and `update_agent`.
+`update_agent`.
 
 In the run the lead has `list_subagents` (allowed agents, model, inputs),
 `delegate_agent(agent=..., brief, variables, operation_key=...)` (with `model`
@@ -375,8 +376,8 @@ fleet, listed as a project (`fleet:<lead id>`).
 
 ## Projects - one config with pages, agents, storage and budgets
 
-`projects_plan` previews only; `projects_create` applies the confirmed
-`plan_token` with identical optional `brief`/`model`/`effort` (effort from the
+`projects_create` applies the confirmed
+`plan_token` with the plan's `brief`/`model`/`effort` (effort from the
 model's `effort_options` in `list_agent_models`, omit if empty; omitted, null or
 blank means defaults; re-plan after changing them). `template=empty` without a
 brief saves model/effort with no task or chat. Brief: 65,536 UTF-8 bytes max,
@@ -537,7 +538,7 @@ Never print, echo, or read back credentials or the environment (`env`,
   that body with that key, never a new key.
 - A REST replay returns the same execution for 2 days; later reuse can create a
   new one, and a concurrent replay can return 409.
-- `create_agent`, `freeze_agent`, deployment creation, and `connect-session`
+- `freeze_agent`, deployment creation, and `connect-session`
   have no replay key: record an audit label and the request before dispatch,
   persist returned IDs, reconcile a lost response by bounded reads, and report
   an unknown outcome instead of cloning.
