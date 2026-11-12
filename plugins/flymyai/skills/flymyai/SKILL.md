@@ -2,17 +2,17 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.0.0 (2026-11-12). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.1.0 (2026-11-12). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
-> `https://flymy.ai/skill.md` and `https://flymy.ai/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.84`; Python SDK `1.2.0rc26`.
+> `flymy.ai/skill.md` and `/AGENTS.md` serve the same bytes.
+> Remote Agents MCP `0.7.0-rc.85`; Python SDK `1.2.0rc26`.
 > Check live schemas and installed packages.
 
 ## Start here - verify FlyMyAI or recover
@@ -216,8 +216,8 @@ or teammate `member_id` after the user confirms connection, recipient and period
 `accept_mcp_invitation` only after the user agrees to pay for their own calls;
 `revoke_mcp_access` stops a share. Accepted shares appear under `shared_with_me`
 in `list_configured_tools`: check it before saying a service is not connected,
-and call one with `call_shared_mcp` and a stable `operation_key`. The recipient
-pays; the owner's credentials never leave FlyMyAI. Tool annotations say which
+and call one with `call_shared_mcp` and a stable `operation_key`. The owner's
+credentials never leave FlyMyAI. Tool annotations say which
 actions only read. Details: https://docs.flymy.ai/agents/guides/mcp-personal-sharing
 
 For an MCP server not in search, call `add_mcp_server` (OAuth:
@@ -241,16 +241,17 @@ Use the returned endpoint, schema bounds and price. `get_pricing` quotes a model
 model a `price` (`run_price`, or usage-based `rates`, `tokens` or `run_time`).
 Generated file `url`s expire at `url_expires_at` (15 min).
 
-Chat models carry `openai.base_url`
-(`https://api.flymy.ai/api/v1/<endpoint_id>/openai/v1`) for the OpenAI SDK,
-FlyMyAI key as Bearer: text, `image_url` messages, `stream`,
-`reasoning_effort`, `response_format` (JSON). Guide:
-https://docs.flymy.ai/guides/llm-openai-compat
+Chat models (category `chat`) answer in `run_model` (`prompt` or `messages`)
+and Chat Completions at `openai.base_url`
+(`https://api.flymy.ai/api/v1/<endpoint_id>/openai/v1`). Claude, GPT and Gemini
+(`flymyai/claude-haiku-5-5`, `flymyai/gpt-6-luna`) take requests there as sent
+(tools, caching, streaming) and their maker's API for its official SDK
+(`.../openai/v1` Responses, `.../anthropic`, `.../google`), unstored, charged in
+`x-flymy-cost-usd`; no maker-run tools, files, batch or fast tiers. Guides:
+https://docs.flymy.ai/guides/ + claude-gpt-gemini, llm-openai-compat; `tools`:
+grok-4-7, deepseek-v4-1-flash, kimi-k3-1-pro
 
-`tools` work on Grok 4.7, DeepSeek V4.1 Flash and Kimi K3.1 Pro. Guides:
-https://docs.flymy.ai/guides/ + grok-4-7, deepseek-v4-1-flash, kimi-k3-1-pro
-
-Native models keep their own input and output through the model-proxy API
+Native models keep their own input and output via the model-proxy API
 (`https://backend.flymy.ai/api/v1/model-proxy/`: `catalog/?endpoint_id=<owner>/<name>`
 gives the contract revision, `contracts/<revision>/` its schema and price; POST
 `operations/` with your own `Idempotency-Key`, then GET the operation).
@@ -420,9 +421,9 @@ Only on request: `set_agent_public` (`preview`: auto or via `update_agent`).
 Fork/adapt/freeze: `copy_agent`; a lead brings its subagents.
 Media: https://flymy.ai/media | https://docs.flymy.ai/agents/guides/media-templates
 Briefs: https://flymy.ai/templates/ - read template.txt; own connections, 0%
-template markup; choose scope and budget first. Responsive Browser Lab reports the
-viewport coverage it actually checked; BrowserStack Device Lab needs your own
-provider account. PromptLinks: a website in, link targets out.
+template markup; choose scope and budget first. Responsive Browser Lab reports
+only the viewports it checked; BrowserStack Device Lab needs your own provider
+account. PromptLinks: a website in, link targets out.
 Akta prompts/tools: https://flymy.ai/vc/ - review before running.
 
 ## Embedded and resale - one builder key, no end-user keys
@@ -500,15 +501,11 @@ a running task; `stop_browser_task` ends a session.
 
 ## Your own model on GPU - FlyMyAI CLI
 
-Deploy your Python model as an auto-scaling GPU endpoint, billed for its
-compute, with the FlyMyAI CLI (`fma`):
-
-```bash
-pip install git+https://github.com/flymyai/fma-custom-models.git
-fma init my_model   # model.py with initialize() and predict()
-fma login           # the user signs in; never ask for the password in chat
-fma deploy          # then fma logs, fma update, fma delete
-```
+Your Python model as an auto-scaling GPU endpoint, billed for its compute:
+`pip install git+https://github.com/flymyai/fma-custom-models.git`;
+`fma init my_model` (`model.py`: `initialize()`, `predict()`), `fma login` (the
+user signs in; never ask for the password in chat), `fma deploy`; then
+`fma logs`, `fma update`, `fma delete`.
 
 ## Auth, errors, and resource discipline
 
@@ -561,9 +558,7 @@ Claude Code plugin (this skill and the MCP):
 `/plugin marketplace add FlyMyAI/claude-plugins`, then
 `/plugin install flymyai@flymyai`. Or save it as `~/.claude/skills/flymyai/SKILL.md`
 or as `AGENTS.md` (Codex and Cursor read it; Claude Code and Gemini CLI read a
-`CLAUDE.md` or `GEMINI.md` containing exactly `@AGENTS.md`). Refetch
-https://flymy.ai/skill.md when `whats_new` reports a version newer than
-`metadata.version`.
+`CLAUDE.md` or `GEMINI.md` containing exactly `@AGENTS.md`).
 
 ## Release maintainers only
 
