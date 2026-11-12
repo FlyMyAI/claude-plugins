@@ -2,18 +2,17 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.1.0"
+  version: "2.2.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.1.0 (2026-11-12). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.2.0 (2026-11-12). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
 > `flymy.ai/skill.md` and `/AGENTS.md` serve the same bytes.
 > Remote Agents MCP `0.7.0-rc.85`; Python SDK `1.2.0rc26`.
-> Check live schemas and installed packages.
 
 ## Start here - verify FlyMyAI or recover
 
@@ -34,8 +33,9 @@ Without FlyMyAI tools, do not claim success, invent tools or substitute native s
    then `/mcp` -> Authenticate; claude.ai or Claude Desktop, Settings ->
    Connectors -> Add custom connector, same URL.
 
-Key clients use that URL (`FLYMYAI_MCP_URL`) and an `X-API-Key` from a secret
-manager, never pasted into chat. Without MCP, use REST only with an
+Key clients use that URL (`FLYMYAI_MCP_URL`) and an `X-API-Key` (or Bearer) from
+a secret manager, never pasted into chat; no browser: a device code login.
+Without MCP, use REST only with an
 authenticated `FLYMYAI_AGENTS_API_ROOT` (production
 `https://backend.flymy.ai/api/v1/agents`); otherwise report that preflight is
 blocked. A release-candidate run must use an explicit candidate
@@ -512,7 +512,7 @@ user signs in; never ask for the password in chat), `fma deploy`; then
 Never print, echo, or read back credentials or the environment (`env`,
 `printenv`, `echo $KEY`); reference secrets only as variables. REST uses
 `X-API-KEY`; models are at `https://api.flymy.ai`, keys at
-`https://app.flymy.ai/profile`, docs at `https://docs.flymy.ai`.
+`https://app.flymy.ai/developers`, docs at `https://docs.flymy.ai`.
 
 - Every run submission requires an explicit caller-owned retry identity. MCP
   `run_agent` and `run_frozen` require a nonblank printable ASCII
