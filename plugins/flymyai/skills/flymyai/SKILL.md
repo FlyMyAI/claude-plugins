@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.2.1"
+  version: "2.2.2"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.2.1 (2026-11-13). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.2.2 (2026-11-13). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
