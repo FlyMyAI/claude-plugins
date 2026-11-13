@@ -2,17 +2,17 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.2.2"
+  version: "2.2.3"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.2.2 (2026-11-13). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.2.3 (2026-11-13). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
-> `flymy.ai/skill.md` and `/AGENTS.md` serve the same bytes.
-> Remote Agents MCP `0.7.0-rc.85`; Python SDK `1.2.0rc26`.
+> `/skill.md` = `/AGENTS.md`.
+> Remote Agents MCP `0.7.0-rc.87`; Python SDK `1.2.0rc26`.
 
 ## Start here - verify FlyMyAI or recover
 
@@ -30,8 +30,8 @@ Without FlyMyAI tools, do not claim success, invent tools or substitute native s
    via FlyMyAI" means this personal MCP sharing, not Notion's own sharing.
 4. Or connect this assistant (sign-in, no key): Claude Code,
    `claude mcp add --transport http flymyai https://mcp-agents.flymy.ai/mcp`
-   then `/mcp` -> Authenticate; claude.ai or Claude Desktop, Settings ->
-   Connectors -> Add custom connector, same URL.
+   then `/mcp` -> Authenticate (headless: `claude mcp login flymyai --no-browser`);
+   claude.ai or Claude Desktop, Settings -> Connectors -> Add custom connector, same URL.
 
 Key clients use that URL (`FLYMYAI_MCP_URL`) and an `X-API-Key` (or Bearer) from
 a secret manager, never pasted into chat; no browser: a device code login.
@@ -44,7 +44,7 @@ production.
 
 Discover services/models with `search_tools`/`list_*` first. Discovery is not success.
 
-Guides: https://flymy.ai/use-cases/. MCPs, each with its actions and setup:
+Guides: https://flymy.ai/use-cases/. MCPs, their actions and setup:
 https://flymy.ai/mcp/
 
 ## Build a project
@@ -80,7 +80,7 @@ https://flymy.ai/mcp/
 | Agents, every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
 | Embedded and resale | https://docs.flymy.ai/agents/guides/embedded-resale |
 | Browser Use | https://docs.flymy.ai/mcp/browser-use |
-| Hacker News (public reads, Atom XML) | https://docs.flymy.ai/mcp/hackernews |
+| Hacker News (public reads, Atom) | https://docs.flymy.ai/mcp/hackernews |
 | Your own model on GPU | https://docs.flymy.ai/cli/intro |
 
 ## Tools and connections
