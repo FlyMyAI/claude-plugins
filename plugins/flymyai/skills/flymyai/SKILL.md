@@ -2,17 +2,17 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.2.4"
+  version: "2.2.5"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.2.4 (2026-11-16). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.2.5 (2026-11-17). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
 > `/skill.md` = `/AGENTS.md`.
-> Remote Agents MCP `0.7.0-rc.88`; Python SDK `1.2.0rc26`.
+> Remote Agents MCP `0.7.0-rc.89`; Python SDK `1.2.0rc26`.
 
 ## Start here - verify FlyMyAI or recover
 
