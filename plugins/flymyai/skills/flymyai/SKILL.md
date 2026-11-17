@@ -137,9 +137,7 @@ explicit set grants.
 in `available_tools`.
 Require `is_configured:true`: `connected` is ready; `setup_required` or
 `reconnect_required` needs setup, `verification_pending` a bounded live read.
-Report `temporarily_unavailable`, never bypass it. A connection whose provider
-stops accepting it turns `reconnect_required` and its owner gets an email with a
-Reconnect button: give the user its `connect_url`, never retry the call.
+Report `temporarily_unavailable`, never bypass it.
 
 Do not require resource sets, groups, slots, grants, principals, revisions or
 mappings for a first personal flow. Add the exact connection to a set later,
