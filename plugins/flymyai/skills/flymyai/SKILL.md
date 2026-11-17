@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.3.0"
+  version: "2.3.1"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.3.0 (2026-11-17). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.3.1 (2026-11-17). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
@@ -137,7 +137,9 @@ explicit set grants.
 in `available_tools`.
 Require `is_configured:true`: `connected` is ready; `setup_required` or
 `reconnect_required` needs setup, `verification_pending` a bounded live read.
-Report `temporarily_unavailable`, never bypass it.
+Report `temporarily_unavailable`, never bypass it. A connection whose provider
+stops accepting it turns `reconnect_required` and its owner gets an email with a
+Reconnect button: give the user its `connect_url`, never retry the call.
 
 Do not require resource sets, groups, slots, grants, principals, revisions or
 mappings for a first personal flow. Add the exact connection to a set later,
