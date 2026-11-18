@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.5.2"
+  version: "2.5.4"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.5.2 (2026-11-18). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.5.4 (2026-11-18). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
@@ -81,15 +81,15 @@ Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
 | Browser Use | https://docs.flymy.ai/mcp/browser-use |
 | DeepWiki | https://docs.flymy.ai/mcp/deepwiki-public |
 | Instant connectors | https://docs.flymy.ai/agents/guides/instant |
+| NASA EONET categories and sources | https://docs.flymy.ai/mcp/nasa-eonet-public |
 | Your own model on GPU | https://docs.flymy.ai/cli/intro |
 
 ## Tools and connections
 
-1. Call `search_tools` with a plain-English intent; read `tool`, `action`,
-   `runtime_name`, and `configured`. Never download the full catalog.
-2. Call `get_tool_schemas` with the `runtime_name` when search did not inline
-   the request schema; never call a write action with empty or guessed arguments
-   to learn its schema. On `not_found`, use the agent runtime or stop.
+1. `search_tools` takes plain English. Read `tool`, `action`, `runtime_name`
+   and `configured`. Never download the full catalog.
+2. Missing schema? Pass `runtime_name` to `get_tool_schemas`. Never probe writes
+   with empty or guessed arguments. On `not_found`, use the agent runtime or stop.
 3. If configured, call `execute_tool` with exactly `tool`, `action`,
    `arguments`, and a caller-owned stable `operation_key`. To select a
    non-default instance, pass its exact configured-tool public UUID as
