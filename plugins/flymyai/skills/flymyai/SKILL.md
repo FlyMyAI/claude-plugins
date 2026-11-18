@@ -44,8 +44,7 @@ production.
 
 Discover services/models with `search_tools`/`list_*` first. Discovery is not success.
 
-Guides: https://flymy.ai/use-cases/. MCPs, their actions and setup:
-https://flymy.ai/mcp/
+Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
 
 ## Build a project
 
@@ -76,11 +75,11 @@ https://flymy.ai/mcp/
 | --- | --- |
 | Start here | https://docs.flymy.ai/agents/guides/connect-your-agent |
 | Tools and connections | https://docs.flymy.ai/agents/concepts/tools |
-| Multiple accounts and resource sets | https://docs.flymy.ai/agents/guides/mcp-resource-sets |
-| Agents, every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
+| Resource sets | https://docs.flymy.ai/agents/guides/mcp-resource-sets |
+| Every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
 | Embedded and resale | https://docs.flymy.ai/agents/guides/embedded-resale |
 | Browser Use | https://docs.flymy.ai/mcp/browser-use |
-| DeepWiki - read indexed public GitHub repository wikis and ask codebase questions | https://docs.flymy.ai/mcp/deepwiki-public |
+| DeepWiki | https://docs.flymy.ai/mcp/deepwiki-public |
 | Instant connectors | https://docs.flymy.ai/agents/guides/instant |
 | Your own model on GPU | https://docs.flymy.ai/cli/intro |
 
@@ -231,15 +230,15 @@ Details: https://docs.flymy.ai/agents/guides/mcp-servers
 ## Models - discover, price, run
 
 ```text
-recommend_model({"description":"flat icon image","top_n":1})
+recommend_model({"description":"flat icon image"})
 run_model({"endpoint_id":"flymyai/nano-banana","input":{"prompt":"A blue circle"}})
 ```
 
 Use the returned endpoint, schema bounds and price; `get_pricing` quotes it first. REST
 `GET https://backend.flymy.ai/api/v1/demo/catalog/` (no key) gives each public
-model a `price` (`run_price`, or usage-based `rates`, `tokens` or `run_time`).
-Categories include 3D (`image-to-3d`, `text-to-3d`, `3d-rigging`, `3d-retexture`),
-`music`, `sound-effects`; file `url`s expire at `url_expires_at` (15 min).
+model a `price` (`run_price`, or usage-based `rates`, `tokens`, `run_time`).
+Categories include `image-to-3d`, `text-to-3d`, `3d-rigging`, `3d-retexture`, `music`,
+`sound-effects`; file `url`s expire at `url_expires_at` (15 min).
 
 Chat models (category `chat`) answer in `run_model` (`prompt` or `messages`)
 and Chat Completions at `openai.base_url`
