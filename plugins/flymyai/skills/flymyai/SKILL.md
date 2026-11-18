@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.4.2"
+  version: "2.4.3"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.4.2 (2026-11-17). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.4.3 (2026-11-18). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
@@ -244,12 +244,12 @@ Generated file `url`s expire at `url_expires_at` (15 min).
 Chat models (category `chat`) answer in `run_model` (`prompt` or `messages`)
 and Chat Completions at `openai.base_url`
 (`https://api.flymy.ai/api/v1/<endpoint_id>/openai/v1`). Claude, GPT and Gemini
-(`flymyai/claude-haiku-5-5`, `flymyai/gpt-6-luna`) take requests there as sent
+(`flymyai/claude-haiku-5-5`) take requests there as sent
 (tools, caching, streaming) and their maker's API for its official SDK
 (`.../openai/v1` Responses, `.../anthropic`, `.../google`), unstored, charged in
 `x-flymy-cost-usd`; no maker-run tools, files, batch or fast tiers. Guides:
 https://docs.flymy.ai/guides/ + claude-gpt-gemini, llm-openai-compat; `tools`:
-grok-4-7, deepseek-v4-1-flash, kimi-k3-1-pro
+grok-4-7, deepseek-v4-1-flash, kimi-k3-1-pro, qwen-glm-hunyuan-mimo-muse
 
 Native models keep their own input and output via the model-proxy API
 (`https://backend.flymy.ai/api/v1/model-proxy/`: `catalog/?endpoint_id=<owner>/<name>`
