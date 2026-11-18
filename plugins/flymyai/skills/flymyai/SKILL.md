@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.4.4"
+  version: "2.4.5"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.4.4 (2026-11-18). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.4.5 (2026-11-18). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
@@ -80,6 +80,7 @@ https://flymy.ai/mcp/
 | Agents, every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
 | Embedded and resale | https://docs.flymy.ai/agents/guides/embedded-resale |
 | Browser Use | https://docs.flymy.ai/mcp/browser-use |
+| DeepWiki - read indexed public GitHub repository wikis and ask codebase questions | https://docs.flymy.ai/mcp/deepwiki-public |
 | Instant connectors | https://docs.flymy.ai/agents/guides/instant |
 | Your own model on GPU | https://docs.flymy.ai/cli/intro |
 
