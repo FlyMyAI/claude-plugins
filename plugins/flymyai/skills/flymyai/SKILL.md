@@ -2,17 +2,17 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.4.6"
+  version: "2.5.1"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.4.6 (2026-11-18). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.5.1 (2026-11-18). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
 > `/skill.md` = `/AGENTS.md`.
-> Remote Agents MCP `0.7.0-rc.91`; Python SDK `1.2.0rc29`.
+> Remote Agents MCP `0.7.0-rc.101`; Python SDK `1.2.0rc29`.
 
 ## Start here - verify FlyMyAI or recover
 
@@ -44,8 +44,7 @@ production.
 
 Discover services/models with `search_tools`/`list_*` first. Discovery is not success.
 
-Guides: https://flymy.ai/use-cases/. MCPs, their actions and setup:
-https://flymy.ai/mcp/
+Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
 
 ## Build a project
 
@@ -76,10 +75,11 @@ https://flymy.ai/mcp/
 | --- | --- |
 | Start here | https://docs.flymy.ai/agents/guides/connect-your-agent |
 | Tools and connections | https://docs.flymy.ai/agents/concepts/tools |
-| Multiple accounts and resource sets | https://docs.flymy.ai/agents/guides/mcp-resource-sets |
-| Agents, every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
+| Resource sets | https://docs.flymy.ai/agents/guides/mcp-resource-sets |
+| Every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
 | Embedded and resale | https://docs.flymy.ai/agents/guides/embedded-resale |
 | Browser Use | https://docs.flymy.ai/mcp/browser-use |
+| DeepWiki | https://docs.flymy.ai/mcp/deepwiki-public |
 | Instant connectors | https://docs.flymy.ai/agents/guides/instant |
 | Your own model on GPU | https://docs.flymy.ai/cli/intro |
 
@@ -230,16 +230,15 @@ Details: https://docs.flymy.ai/agents/guides/mcp-servers
 ## Models - discover, price, run
 
 ```text
-recommend_model({"description":"flat icon image",
-  "include_schema":true,"top_n":1})
-run_model({"endpoint_id":"flymyai/nano-banana",
-  "input":{"prompt":"A blue circle"}})
+recommend_model({"description":"flat icon image"})
+run_model({"endpoint_id":"flymyai/nano-banana","input":{"prompt":"A blue circle"}})
 ```
 
-Use the returned endpoint, schema bounds and price. `get_pricing` quotes a model before a paid run; over REST,
+Use the returned endpoint, schema bounds and price; `get_pricing` quotes it first. REST
 `GET https://backend.flymy.ai/api/v1/demo/catalog/` (no key) gives each public
-model a `price` (`run_price`, or usage-based `rates`, `tokens` or `run_time`).
-Generated file `url`s expire at `url_expires_at` (15 min).
+model a `price` (`run_price`, or usage-based `rates`, `tokens`, `run_time`).
+Categories include `image-to-3d`, `text-to-3d`, `3d-rigging`, `3d-retexture`, `music`,
+`sound-effects`; file `url`s expire at `url_expires_at` (15 min).
 
 Chat models (category `chat`) answer in `run_model` (`prompt` or `messages`)
 and Chat Completions at `openai.base_url`
@@ -264,11 +263,11 @@ Without a running instance a call waits `queued`: keep reading it, never resend.
 different, older route. Guide: https://docs.flymy.ai/api/model-proxy
 
 Model REST inputs are model-specific `multipart/form-data`, not JSON; read
-`https://api.flymy.ai/api/v1/flymyai/<endpoint_id>/openapi.json` first. From
+`https://api.flymy.ai/api/v1/<endpoint_id>/openapi.json` first. From
 `/predict/stream/`, concatenate `output_data.output` chunks and check body-level
 status even on HTTP 200: https://docs.flymy.ai/api/models-endpoints
-Python SDK (`pip install 'flymyai>=1.2.0rc22'`) returns images as base64, so prefer
-URL or async outputs for large media: https://docs.flymy.ai/clients/python
+Python SDK returns images as base64; prefer URL or async outputs for large media:
+https://docs.flymy.ai/clients/python
 Usage: `GET https://api.flymy.ai/api/v2/usage` over a bounded range (lags 20+ s).
 
 TypeSafe Jev 1.13 answers typed questions (Choice, Noul, Score):
