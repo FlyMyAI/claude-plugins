@@ -12,7 +12,7 @@ https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
 > `/skill.md` = `/AGENTS.md`.
-> Remote Agents MCP `0.7.0-rc.107`; Python SDK `1.2.0rc29`.
+> Remote Agents MCP `0.7.0-rc.108`; Python SDK `1.2.0rc29`.
 
 ## Start here - verify FlyMyAI or recover
 
@@ -51,7 +51,7 @@ Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
 1. `whoami` - FlyMyAI is connected, and to which account.
 2. `search_tools` with a plain-English intent per service, then
    `get_tool_schemas` for exact fields.
-3. If a service is not `configured`, `add_tool`; the user finishes the hosted
+3. If a service needs setup (`access: setup_required`), `add_tool`; the user finishes the hosted
    link; confirm with `list_configured_tools`.
 4. Every agent lives in a project (no `create_agent`): `projects_plan`, then on
    the user's OK `projects_create` with the task as `brief`. It returns `url`
@@ -76,6 +76,7 @@ Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
 | Start here | https://docs.flymy.ai/agents/guides/connect-your-agent |
 | Tools and connections | https://docs.flymy.ai/agents/concepts/tools |
 | Resource sets | https://docs.flymy.ai/agents/guides/mcp-resource-sets |
+| Detailed agent workflows | https://docs.flymy.ai/agents/guides/agent-workflows |
 | Every MCP tool | https://docs.flymy.ai/agents/guides/agent-gateway-reference |
 | Embedded and resale | https://docs.flymy.ai/agents/guides/embedded-resale |
 | Browser Use | https://docs.flymy.ai/mcp/browser-use |
@@ -86,16 +87,19 @@ Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
 
 ## Tools and connections
 
-1. `search_tools` takes plain English. Read `tool`, `action`, `runtime_name`
-   and `configured`. Never download the full catalog.
-2. Missing schema? Pass `runtime_name` to `get_tool_schemas`. Never probe writes
+1. `search_tools` takes plain English and `limit` (1-20, default 8). Read
+   `runtime_name`, `ready`, `access`, and the short description. Never download
+   the full catalog. A unique eligible owned connection may supply `connection_id`;
+   ambiguous or scoped results omit it.
+2. Pass `runtime_name` to `get_tool_schemas` for `request_schema`. Use the search
+   row's `module` as `tool` and its exact `action`. Never probe writes
    with empty or guessed arguments. On `not_found`, use the agent runtime or stop.
-3. If configured, call `execute_tool` with exactly `tool`, `action`,
+3. If ready, call `execute_tool` with exactly `tool`, `action`,
    `arguments`, and a caller-owned stable `operation_key`. To select a
    non-default instance, pass its exact configured-tool public UUID as
    `connection_id`; omission is supported only while one eligible connection is
    unambiguous. Run OAuth/Composio actions inside an agent.
-4. If not configured, call `add_tool` with the tool slug. It returns the exact
+4. If setup is required, call `add_tool` with the tool slug. It returns the exact
    connection record or guidance with a hosted
    `https://app.flymy.ai/mcp-configs#<slug>?connection_id=<public UUID>` link.
    After the user finishes, call `list_configured_tools`, match the exact
@@ -107,7 +111,10 @@ Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
    same toolkit keep working.
 
 Search rows also carry `ready`, `access`, `price` and 7-day `health`: prefer a
-ready, healthy row and quote `price` before a paid call.
+ready, healthy row and quote `price` before a paid call. For PostHog HogQL,
+`posthog_query_events` accepts `compact:true` to return only `columns` and
+`results`; keep a SQL `LIMIT` to bound rows. Omit `compact` for the original
+provider response.
 
 ```text
 search_tools({"query":"telegram list dialogs"})
@@ -125,8 +132,7 @@ Without MCP tool calls, POST
 `{"tool":"system-utils","action":"search_tools","arguments":{"query":"...","limit":20}}`
 and then `get_tool_schemas` (at most 10 runtime names) to
 `$FLYMYAI_AGENTS_API_ROOT/custom-tools/call/` with `X-API-KEY`; read
-`result.schemas[runtime_name].request_schema` and call the returned `module` as
-`tool`.
+`result.schemas[runtime_name].request_schema` and use the search row's `module` and `action` for dispatch.
 
 ### Personal default - one account, no MCP resource-set setup
 
@@ -137,7 +143,8 @@ explicit set grants.
 in `available_tools`.
 Require `is_configured:true`: `connected` is ready; `setup_required` or
 `reconnect_required` needs setup, `verification_pending` a bounded live read.
-Report `temporarily_unavailable`, never bypass it.
+Report `temporarily_unavailable`, never bypass it. `plan_blocked` means the
+provider plan prevents access; reconnecting does not upgrade that plan.
 
 Do not require resource sets, groups, slots, grants, principals, revisions or
 mappings for a first personal flow. Add the exact connection to a set later,
@@ -344,35 +351,10 @@ needs `scopes`. Read `source.status`; `triggers_v1_activate` recovers it;
 
 ## Subagents - a lead runs your other agents
 
-Any ordinary run can start subagents. `subagent_limits` on `run_agent` or
-`run_frozen` sets the lead's allowance: `cap_usd` (subagents and their tools; 0
-turns them off), `max_children`, `max_parallel` (1-8, default 3; more wait) and
-`agents` (your agent ids; without it, also those its instruction names by id).
-No cap or count limit unless you set one; the lead's calls bill separately.
-
-Chat/API/SDK/MCP leads author requested helpers with `create_subagent` and
-`update_subagent` (including `user_prompt_source`), within the project;
-scheduled, frozen and child runs cannot. Editing another agent needs your
-request; `flymy.yaml` agents use plan/apply; external assistants use
-`update_agent`.
-
-In the run the lead has `list_subagents` (allowed agents, model, inputs),
-`delegate_agent(agent=..., brief, variables, operation_key=...)` (with `model`
-instead of `agent` it copies the lead and its tools; a subagent runs on the
-lead's model unless you or its instructions name another), `wait_subagents`,
-`subagent_status(child_id)` (facts and full-result reference) and
-`cancel_subagents` (the batch joins automatically; `wake_on_end:true` wakes the lead
-when that child ends), plus `describe_subagent_api`, `freeze_subagent` (its last
-completed run) and `schedule_subagent`. `delegate` (older) starts a bounded copy of the lead.
-
-Children stop only at a cap you set, cannot delegate, and receive no connections
-shared by others; `get_team_run` is for Agent Teams only. Identical delegations in
-one owner turn reuse their child; an explicit `operation_key` marks an intentional
-job and changed inputs conflict. Use the child's full result reference; do not recollect
-its data. Freezing a lead freezes its subagents first (each without a
-current version, from its own run of the subtask), then pins their live versions; its
-scheduled runs start the pinned versions with only their `variables`. A lead and its agents are a
-fleet, listed as a project (`fleet:<lead id>`).
+Use `subagent_limits` on `run_agent` or `run_frozen` to set the budget,
+concurrency and allowed agents. The lead uses `delegate_agent` and joins its
+children. Children have their own grants. For authoring, replay and freezing,
+see https://docs.flymy.ai/agents/guides/agent-workflows#subagents.
 
 ## Projects - one config with pages, agents, storage and budgets
 
@@ -538,6 +520,11 @@ Never print, echo, or read back credentials or the environment (`env`,
   have no replay key: record an audit label and the request before dispatch,
   persist returned IDs, reconcile a lost response by bounded reads, and report
   an unknown outcome instead of cloning.
+
+An explicitly invalid API key is refused at MCP initialization with 401, before
+a session opens. Create a key at https://app.flymy.ai/developers or sign in with
+OAuth. Headless OAuth authorization codes last 5 minutes and remain single-use
+and PKCE-bound.
 
 403 is a key or balance problem (Agents also use 402 for balance); read the body.
 Direct tool calls (`execute_tool`, REST, compiled and scheduled runs) are charged
