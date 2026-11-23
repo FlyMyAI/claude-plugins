@@ -2,17 +2,17 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.5.7"
+  version: "2.5.8"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.5.7 (2026-11-18). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.5.8 (2026-11-23). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
 > `/skill.md` = `/AGENTS.md`.
-> Remote Agents MCP `0.7.0-rc.108`; Python SDK `1.2.0rc29`.
+> Remote Agents MCP `0.7.0-rc.110`; Python SDK `1.2.0rc29`.
 
 ## Start here - verify FlyMyAI or recover
 
@@ -69,7 +69,7 @@ Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
 10. Ship: a schedule (`update_compilation`), a webhook (`triggers_v1_create`),
    a public template (`set_agent_public`), a subagent of a lead, or a product
    deployment.
-11. Media: `recommend_model`, `get_pricing`, `run_model`; if `running`, `get_model_result`.
+11. Media: `recommend_model` (compact summary cards, paginated), `get_model_schema`, `get_pricing`, `run_model`; if `running`, `get_model_result`.
 
 | Section | Docs |
 | --- | --- |
@@ -237,11 +237,15 @@ Details: https://docs.flymy.ai/agents/guides/mcp-servers
 ## Models - discover, price, run
 
 ```text
-recommend_model({"description":"flat icon image"})
+recommend_model({"description":"flat icon image","limit":5,"max_price_usd":0.05})
+get_model_schema({"endpoint_id":"flymyai/nano-banana"})
 run_model({"endpoint_id":"flymyai/nano-banana","input":{"prompt":"A blue circle"}})
 ```
 
-Use the returned endpoint, schema bounds and price; `get_pricing` quotes it first. REST
+`recommend_model` returns compact summary cards by default (`limit` 1-25, default 5;
+`offset`, `category`, `max_price_usd`; `detail:"full"` for inline schemas). Call
+`get_model_schema` for exact input parameters and `get_pricing` to quote a run first;
+`flymyai_models` and `list_media_models` paginate the catalog (`limit`, `offset`, `category`). REST
 `GET https://backend.flymy.ai/api/v1/demo/catalog/` (no key) gives each public
 model a `price` (`run_price`, or usage-based `rates`, `tokens`, `run_time`).
 Categories include `image-to-3d`, `text-to-3d`, `3d-rigging`, `3d-retexture`, `music`,
