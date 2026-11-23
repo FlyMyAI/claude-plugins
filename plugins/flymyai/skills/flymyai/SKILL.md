@@ -2,17 +2,17 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.5.8"
+  version: "2.6.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.5.8 (2026-11-23). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.6.0 (2026-11-23). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
 > `/skill.md` = `/AGENTS.md`.
-> Remote Agents MCP `0.7.0-rc.110`; Python SDK `1.2.0rc29`.
+> Remote Agents MCP `0.7.0-rc.111`; Python SDK `1.2.0rc29`.
 
 ## Start here - verify FlyMyAI or recover
 
@@ -398,7 +398,9 @@ owner/editor publish beside the live version (`publish: false`, live
 `base_version`, give `page_url`), live only on "and update current version";
 others clone. Sites: `publish_site`, `share_site`, `invite_to_site`,
 `get_site_usage` (the owner's sponsor pool or consenting visitors pay, under
-caps you set). Details: https://docs.flymy.ai/agents/guides/artifacts
+caps you set). A site has one link, its `url` (`https://app.flymy.ai/sites/<id>`):
+you and invited people always, anyone while `share_site` has it on; older `/a/`
+links stop later. Details: https://docs.flymy.ai/agents/guides/artifacts
 
 ## Templates
 
