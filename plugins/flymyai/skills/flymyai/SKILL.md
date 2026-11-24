@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.7.0"
+  version: "2.7.1"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.7.0 (2026-11-24). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.7.1 (2026-11-24). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
@@ -235,6 +235,8 @@ exact `arguments`, stable `operation_key`, sent as `Idempotency-Key`).
 Details: https://docs.flymy.ai/agents/guides/mcp-servers
 
 ## Models - discover, price, run
+
+For depth maps from video, choose `flymyai/depth-anything-video`: a depth MP4, optional side-by-side comparison, and optional raw NPZ. Billing is $0.04 per processed source second; `max_frames` can reduce the processed duration, while `output_fps` changes playback only. Read its schema for the raw-export size limits.
 
 ```text
 recommend_model({"description":"flat icon image","limit":5,"max_price_usd":0.05})
