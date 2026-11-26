@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.7.1"
+  version: "2.7.3"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.7.1 (2026-11-24). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.7.3 (2026-11-26). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
@@ -415,7 +415,8 @@ Media: https://flymy.ai/media | https://docs.flymy.ai/agents/guides/media-templa
 Briefs: https://flymy.ai/templates/ - read template.txt; own connections, 0%
 template markup; choose scope and budget first. Responsive Browser Lab reports
 only the viewports it checked; BrowserStack Device Lab needs your own provider
-account. PromptLinks: a website in, link targets out.
+account. PromptLinks: a website in, link targets out. Genjutsu Studio: a video and
+1-4 photos in, the same moves with your characters out.
 Akta prompts/tools: https://flymy.ai/vc/ - review before running.
 
 ## Embedded and resale - one builder key, no end-user keys
