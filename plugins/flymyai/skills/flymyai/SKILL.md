@@ -12,7 +12,7 @@ https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
 > `/skill.md` = `/AGENTS.md`.
-> Remote Agents MCP `0.7.0-rc.112`; Python SDK `1.2.0rc29`.
+> Remote Agents MCP `0.7.0-rc.113`; Python SDK `1.2.0rc29`.
 
 ## Start here - verify FlyMyAI or recover
 
