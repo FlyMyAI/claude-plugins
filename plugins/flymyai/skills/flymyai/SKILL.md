@@ -2,12 +2,12 @@
 name: flymyai
 description: Use for FlyMyAI/flymy.ai to generate media, call connected accounts, get web data, run or schedule agents.
 metadata:
-  version: "2.7.3"
+  version: "2.9.0"
 ---
 
 # FlyMyAI - assistant operating guide
 
-Platform version: Headless Cloud 2.7.3 (2026-11-26). https://flymy.ai/changelog.md,
+Platform version: Headless Cloud 2.9.0 (2026-11-27). https://flymy.ai/changelog.md,
 https://flymy.ai/changelog.json. On connection/news: `whats_new(since=last_seen_version)`;
 a newer `current_version` than this file's: re-read the guide, replace this copy.
 
@@ -24,7 +24,8 @@ Without FlyMyAI tools, do not claim success, invent tools or substitute native s
 
 1. Sign up: https://app.flymy.ai/signup
 2. Connect a service: https://app.flymy.ai/mcp-configs#notion (any slug); a
-   signed-out user signs up and lands back there.
+   signed-out user signs up and lands back there. Another account of it:
+   **+ Account**, or `add_tool` with an `alias`.
 3. Share it there: My MCPs -> **Share** -> email and 1-30 days -> send (listed
    at https://app.flymy.ai/mcp-configs?tab=shared). "Share my Notion with <email>
    via FlyMyAI" means this personal MCP sharing, not Notion's own sharing.
@@ -44,7 +45,7 @@ production.
 
 Discover services/models with `search_tools`/`list_*` first. Discovery is not success.
 
-Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
+Guides: https://flymy.ai/use-cases/. MCPs: https://flymy.ai/mcp/
 
 ## Build a project
 
@@ -111,10 +112,7 @@ Guides: https://flymy.ai/use-cases/. MCPs and setup: https://flymy.ai/mcp/
    same toolkit keep working.
 
 Search rows also carry `ready`, `access`, `price` and 7-day `health`: prefer a
-ready, healthy row and quote `price` before a paid call. For PostHog HogQL,
-`posthog_query_events` accepts `compact:true` to return only `columns` and
-`results`; keep a SQL `LIMIT` to bound rows. Omit `compact` for the original
-provider response.
+ready, healthy row and quote `price` before a paid call.
 
 ```text
 search_tools({"query":"telegram list dialogs"})
@@ -153,8 +151,8 @@ without rebuilding the agent or reconnecting the account.
 ### Grow into multiple accounts and MCP resource sets
 
 Aliases are labels; authorization, dispatch, and freeze use stable public IDs.
-Add each account with `add_tool` and a unique `alias` (ASCII letters, digits,
-`_`, `-`), create one set with `create_mcp_resource_set` and a caller-owned
+Add each account with `add_tool` and a unique `alias` (letters, digits, `_`,
+`-`), create one set with `create_mcp_resource_set` and a caller-owned
 `operation_key`, write the full membership with
 `replace_mcp_resource_set_members` at the current revision (reload after 409),
 and grant it through `mcp_resource_set_ids` with `mcp_access_mode:"scoped"`:
@@ -236,7 +234,7 @@ Details: https://docs.flymy.ai/agents/guides/mcp-servers
 
 ## Models - discover, price, run
 
-For depth maps from video, choose `flymyai/depth-anything-video`: a depth MP4, optional side-by-side comparison, and optional raw NPZ. Billing is $0.04 per processed source second; `max_frames` can reduce the processed duration, while `output_fps` changes playback only. Read its schema for the raw-export size limits.
+Depth from video: `flymyai/depth-anything-video`.
 
 ```text
 recommend_model({"description":"flat icon image","limit":5,"max_price_usd":0.05})
